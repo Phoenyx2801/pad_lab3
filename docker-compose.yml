@@ -62,7 +62,6 @@ services:
     volumes:
       - ./script/:/data
     restart: unless-stopped
-    # command: /bin/sh -c "/data/node_init.sh"
     ports:
       - 25433:5432
     networks:
