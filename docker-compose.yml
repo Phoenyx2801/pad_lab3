@@ -69,7 +69,6 @@ services:
       cluster:
         ipv4_address: 172.18.54.12
 
-
 networks:
   cluster:
       driver: bridge
