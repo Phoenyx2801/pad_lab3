@@ -4,33 +4,47 @@ services:
     image: backend:redis
     container_name: api1
     environment:
+      - APP_PORT=8080
       - REDIS_HOST=10.62.1.111:6379
-      - DB_CONNECT_STRING="host=172.18.54.12 user=postgres password=postgres dbname=postgres port=5432 sslmode=disable"
-    ports:
-      - 18080:8081
+      - DB_HOST=172.18.54.12
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=postgres
+      - DB_PORT=5432
+      - DB_SSL=disable
     restart: unless-stopped
     networks:
       cluster:
         ipv4_address: 172.18.54.80
+    depends_on:
+      db-node:
+        condition: service_started
 
   api2:
     image: backend:redis
     container_name: api2
     environment:
+      - APP_PORT=8081
       - REDIS_HOST=10.62.1.111:6379
-      - DB_CONNECT_STRING="host=172.18.54.11 user=postgres password=postgres dbname=postgres port=5432 sslmode=disable"
-    ports:
-      - 18081:8081
+      - DB_HOST=172.18.54.12
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=postgres
+      - DB_PORT=5432
+      - DB_SSL=disable
     restart: unless-stopped
     networks:
       cluster:
         ipv4_address: 172.18.54.81
+    depends_on:
+      db-node:
+        condition: service_started
 
   proxy:
     image: proxy:latest
     container_name: proxy
     environment:
-      - BACKEND_ADDRESSES=http://172.18.54.81:18080,http://172.18.54.80:18081
+      - BACKEND_ADDRESSES=http://172.18.54.81:8081,http://172.18.54.80:8080
     ports:
       - "8885:8080"
     restart: unless-stopped
@@ -38,24 +52,7 @@ services:
       cluster:
         ipv4_address: 172.18.54.85
 
-  db-node1:
-    image: postgres:15.4
-    container_name: node1
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=postgres
-    volumes:
-      - ./script/:/data
-    restart: unless-stopped
-    # command: /bin/sh -c "/data/node_init.sh"
-    ports:
-      - 15432:5432
-    networks:
-      cluster:
-        ipv4_address: 172.18.54.11
-
-  db-node2:
+  db-node:
     image: postgres:15.4
     container_name: node2
     environment:

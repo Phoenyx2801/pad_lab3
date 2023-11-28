@@ -108,7 +108,7 @@ func main() {
 	r.PUT("/update/:id", contr.UpdateBookById)
 
 	db.ConnectPostgres()
-	err := r.Run(":8081")
+	err := r.Run(":" + os.Getenv("APP_PORT"))
 	if err != nil {
 		return
 	}
