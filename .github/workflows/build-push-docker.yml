@@ -1,7 +1,7 @@
 name: build-push-dockerimage
 on:
-  create:
-    tags:
+  push:
+    branches:
       - main
 jobs:
   build-push-image:
