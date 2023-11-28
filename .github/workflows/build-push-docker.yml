@@ -9,19 +9,18 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      -
-        name: Configure AWS credentials
+
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2 # More information on this action can be found below in the 'AWS Credentials' section
         with:
            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
            aws-region: eu-central-1
-      -
-        name: Login to AWS ECR
+      - name: Login to AWS ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-      -
-        name: Build, tag and push to AWS ECR
+
+      - name: Build, tag and push to AWS ECR
         env:
           IMAGE_TAG: ${{ github.sha }}
         run: |
