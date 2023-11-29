@@ -103,6 +103,9 @@ func main() {
 	r.GET("/ping", func(context *gin.Context) {
 		context.JSON(http.StatusOK, "pong")
 	})
+	r.GET("/", func(context *gin.Context) {
+		context.JSON(http.StatusOK, "App run")
+	})
 	r.POST("/addBook", contr.AddBook)
 	r.DELETE("/delete/:id", contr.DeleteBook)
 	r.PUT("/update/:id", contr.UpdateBookById)
