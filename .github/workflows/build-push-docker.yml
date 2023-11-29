@@ -25,4 +25,19 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t ${{ vars.REGISTRY_NAME}}/${{ vars.REPOSITORY_NAME }}:$IMAGE_TAG .
+          docker tag ${{ vars.REGISTRY_NAME}}/${{ vars.REPOSITORY_NAME }}:$IMAGE_TAG ${{ vars.REGISTRY_NAME}}/${{ vars.REPOSITORY_NAME }}:latest
           docker push ${{ vars.REGISTRY_NAME}}/${{ vars.REPOSITORY_NAME }}:$IMAGE_TAG
+          docker push ${{ vars.REGISTRY_NAME}}/${{ vars.REPOSITORY_NAME }}:latest
+
+      - name: Docker run compose on ec2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_PEM_KEY }}
+          script: |
+            cd /home/ubuntu/lab3
+            docker-compose pull
+            docker-compose up -d
+            
+

@@ -1,7 +1,7 @@
 version: "3"
 services:
   api1:
-    image: backend:redis-2
+    image: 980247259100.dkr.ecr.eu-central-1.amazonaws.com/lab3-pad:latest
     container_name: api1
     environment:
       - APP_PORT=8080
@@ -21,7 +21,7 @@ services:
         condition: service_started
 
   api2:
-    image: backend:redis-2
+    image: 980247259100.dkr.ecr.eu-central-1.amazonaws.com/lab3-pad:latest
     container_name: api2
     environment:
       - APP_PORT=8081
@@ -41,7 +41,7 @@ services:
         condition: service_started
 
   proxy:
-    image: proxy:latest
+    image: 980247259100.dkr.ecr.eu-central-1.amazonaws.com/lab3-pad:proxy
     container_name: proxy
     environment:
       - BACKEND_ADDRESSES=http://172.18.54.81:8081,http://172.18.54.80:8080
