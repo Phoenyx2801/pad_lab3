@@ -18,7 +18,7 @@ services:
         ipv4_address: 172.18.54.80
     depends_on:
       db-node:
-        condition: service_started
+        condition: service_healthy
 
   api2:
     image: 980247259100.dkr.ecr.eu-central-1.amazonaws.com/lab3-pad:latest
@@ -36,11 +36,6 @@ services:
     networks:
       cluster:
         ipv4_address: 172.18.54.81
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     depends_on:
       db-node:
         condition: service_healthy
@@ -72,6 +67,12 @@ services:
     networks:
       cluster:
         ipv4_address: 172.18.54.12
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 
 networks:
   cluster:
