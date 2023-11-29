@@ -104,7 +104,7 @@ func main() {
 		context.JSON(http.StatusOK, "pong")
 	})
 	r.GET("/", func(context *gin.Context) {
-		context.JSON(http.StatusOK, "App run")
+		context.JSON(http.StatusOK, "App run v2")
 	})
 	r.POST("/addBook", contr.AddBook)
 	r.DELETE("/delete/:id", contr.DeleteBook)
